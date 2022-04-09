@@ -12,3 +12,4 @@ describe('Check app', function () {
 });
 
 
+// npx wdio wdio.conf.js --spec specs/click-hide-button.e2e.js
