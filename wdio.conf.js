@@ -1,3 +1,6 @@
+const fs = require('fs');
+const fsExtra = require('fs-extra');
+
 const {
     addStep,
     addFeature,
@@ -12,41 +15,36 @@ const {
 // const bsLocal = false;
 // const idleTimeout = 180000;
 const bsCaps = [
-    {
-        'bstack:options': {
-            "os": "Windows",
-            "osVersion": "10",
-            "local": "false",
-            "seleniumVersion": "3.5.2",
-            "userName": process.env.USER,
-            "accessKey": process.env.KEY,
-        },
-        "browserName": "Edge",
-        "browserVersion": "latest-beta",
+    {'bstack:options' : {
+        "os" : "Windows",
+        "osVersion" : "8.1",
+        "local" : "false",
+        "seleniumVersion" : "3.14.0",
+        "userName" : "wade_FXUnLc",
+        "accessKey" : "sxEudXqtBFPhBDzvdrtk",
     },
-    {
-        'bstack:options': {
-            "os": "Windows",
-            "osVersion": "10",
-            "local": "false",
-            "seleniumVersion": "3.5.2",
-            "userName": process.env.USER,
-            "accessKey": process.env.KEY,
-        },
-        "browserName": "Firefox",
-        "browserVersion": "latest-beta",
+    "browserName" : "Chrome",
+    "browserVersion" : "latest",
     },
-    {
-        'bstack:options': {
-            "os": "OS X",
-            "osVersion": "Monterey",
-            "local": "false",
-            "seleniumVersion": "3.14.0",
-            "userName": process.env.USER,
-            "accessKey": process.env.KEY,
+    {'bstack:options' : {
+            "osVersion" : "15",
+            "deviceName" : "iPhone 13",
+            "realMobile" : "true",
+            "local" : "false",
+            "userName" : "wade_FXUnLc",
+            "accessKey" : "sxEudXqtBFPhBDzvdrtk",
         },
-        "browserName": "Safari",
-        "browserVersion": "15.0",
+        "browserName" : "safari",
+    },
+    {'bstack:options' : {
+            "osVersion" : "10.0",
+            "deviceName" : "Xiaomi Redmi Note 9",
+            "realMobile" : "true",
+            "local" : "false",
+            "userName" : "wade_FXUnLc",
+            "accessKey" : "sxEudXqtBFPhBDzvdrtk",
+        },
+        "browserName" : "chrome",
     }
 ];
 
@@ -63,17 +61,53 @@ const localCaps = [{
 const bsServices = ['browserstack'];
 const localServices = ['chromedriver'];
 exports.config = {
-    user: process.env.USER,
-    key: process.env.KEY,
+    // Browserstack config
+    user: 'wade_FXUnLc',
+    key: 'sxEudXqtBFPhBDzvdrtk',
+    services: [
+        ['browserstack']
+    ],
     specs: [
         './specs/**/*.js'
     ],
     exclude: [
         // 'path/to/excluded/files'
     ],
+    capabilities: [ {'bstack:options' : {
+        "os" : "Windows",
+        "osVersion" : "8.1",
+        "local" : "false",
+        "seleniumVersion" : "3.14.0",
+        "userName" : "wade_FXUnLc",
+        "accessKey" : "sxEudXqtBFPhBDzvdrtk",
+    },
+    "browserName" : "Chrome",
+    "browserVersion" : "latest",
+    },
+    {'bstack:options' : {
+            "osVersion" : "15",
+            "deviceName" : "iPhone 13",
+            "realMobile" : "true",
+            "local" : "false",
+            "userName" : "wade_FXUnLc",
+            "accessKey" : "sxEudXqtBFPhBDzvdrtk",
+        },
+        "browserName" : "safari",
+    },
+    {'bstack:options' : {
+            "osVersion" : "10.0",
+            "deviceName" : "Xiaomi Redmi Note 9",
+            "realMobile" : "true",
+            "local" : "false",
+            "userName" : "wade_FXUnLc",
+            "accessKey" : "sxEudXqtBFPhBDzvdrtk",
+        },
+        "browserName" : "chrome",
+    }],
+
     automationProtocol: 'webdriver',
     maxInstances: 10,
-    capabilities: process.env.HUB === 'bs' ? bsCaps : localCaps,
+    //capabilities: process.env.HUB === 'bs' ? bsCaps : localCaps,
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: 'warn',
     bail: 0,
@@ -82,7 +116,7 @@ exports.config = {
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
     // services: process.env.HUB === 'bs' ? bsServices : localServices,
-    services: localServices,
+    // services: localServices,
     framework: 'mocha',
     cucumberOpts: {
         scenarioLevelReporter: true,
@@ -123,7 +157,7 @@ exports.config = {
         ['allure', {
             outputDir: 'allure-results',
             disableWebdriverStepsReporting: true,
-            // disableWebdriverScreenshotsReporting: true,
+            disableWebdriverScreenshotsReporting: false,
             useCucumberStepReporter: false,
         }]],
 
@@ -147,8 +181,15 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+     onPrepare: function (config, capabilities) {
+        const dirname = './screenshots';
+        
+        if (!fs.existsSync(dirname)) {
+            fs.mkdirSync(dirname);
+        } else {
+            fsExtra.emptyDirSync(dirname);
+        } 
+     },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -244,6 +285,10 @@ exports.config = {
     afterTest: async function (test, context, { error, result, duration, passed, retries }) {
         if (!passed) {
             await browser.takeScreenshot();
+            const fileName = encodeURIComponent(test.title.replace(/[\s\/:]/g, '_'));
+            const scrName = new Date().toLocaleString().replace(/[\s\/:]/g, '_').replace(/[,]/g, '');
+            const filePath = `./screenshots/${fileName}_${scrName}.png`;
+            await browser.saveScreenshot(filePath);
         }
     },
 
