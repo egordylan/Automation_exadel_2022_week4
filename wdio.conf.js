@@ -115,19 +115,19 @@ exports.config = {
         },
         "browserName" : "Firefox",
         "browserVersion" : "98.0",
+    },
+    {
+        'bstack:options' : {
+        "os" : "OS X",
+        "osVersion" : "Sierra",
+        "local" : "false",
+        "seleniumVersion" : "3.5.2",
+        "userName" : "wade_FXUnLc",
+        "accessKey" : "sxEudXqtBFPhBDzvdrtk",
         },
-        {
-            'bstack:options' : {
-            "os" : "OS X",
-            "osVersion" : "Sierra",
-            "local" : "false",
-            "seleniumVersion" : "3.5.2",
-            "userName" : "wade_FXUnLc",
-            "accessKey" : "sxEudXqtBFPhBDzvdrtk",
-            },
-            "browserName" : "Edge",
+        "browserName" : "Edge",
             "browserVersion" : "98.0",
-            }],
+    }],
 
     automationProtocol: 'webdriver',
     maxInstances: 10,

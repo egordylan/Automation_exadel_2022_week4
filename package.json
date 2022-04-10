@@ -15,6 +15,7 @@
   },
   "scripts": {
     "test": "wdio wdio.conf.js",
+    "localTest": "wdio wdio.conf_for_local_tests.js",
     "report": " cp  -R ./allure-report/history ./allure-results/; allure generate -c && allure open",
     "report:generate": "sleep 1;  cp  -R ./allure-report/history ./allure-results/; allure generate -c",
     "report:purge": "rm -rf allure-results; rm -rf allure-report",
