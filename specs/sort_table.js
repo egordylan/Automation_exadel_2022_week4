@@ -56,7 +56,9 @@ describe('Sort table', async function () {
 
             const ageNums = await Promise.all(agePromises);
             const ageRecieved = ageNums.map(Number);
-            let ageSorted = JSON.parse(JSON.stringify(ageRecieved)).map(Number).sort((a, b) => a - b); 
+            console.log('asc from promise',ageRecieved);
+            let ageSorted = (JSON.parse(JSON.stringify(ageRecieved))).map(Number).sort((a, b) => a - b); 
+            console.log('asc by me',ageSorted)
             await expect(ageRecieved).toEqual(ageSorted);
         });
 
@@ -143,8 +145,9 @@ describe('Sort table', async function () {
 
             const ageNums = await Promise.all(agePromises);
             const ageRecieved = ageNums.map(Number);
+            console.log('desc from promise',ageRecieved)
             let ageSorted = JSON.parse(JSON.stringify(ageRecieved)).map(Number).sort((a, b) => b - a); 
-
+            console.log('desc sorted by me', ageSorted)
             await expect(ageRecieved).toEqual(ageSorted);
             
         });
