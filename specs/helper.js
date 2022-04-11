@@ -8,7 +8,6 @@ async function login (link) {
 }   
 
 
-
 async function waitForUnits(unit, timeout, selector, units) {
     units.push({ num: unit });
     await browser.waitUntil(
@@ -39,4 +38,25 @@ async function inputData(data, selector, timeout, database, units) {
     }
 }
 
-module.exports = {login, waitForUnits, inputData};
+
+async function ascClick(selector, attr, expectedA) {
+    const elem = await $(selector);
+    await elem.click();
+    await expect(elem).toHaveAttr(attr, expectedA);
+}
+
+
+async function descClick(attr, attrExpect, timeout, selector) {
+    await selector.waitUntil(
+        async function ()  {
+            await selector.click();
+            return (await this.getAttribute(attr)) === attrExpect; 
+        },
+        {
+            timeout: timeout,
+            timeoutMsg: `expected attribute is different`,
+        }
+    );
+}
+
+module.exports = {login, waitForUnits, inputData, ascClick, descClick};

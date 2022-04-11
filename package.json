@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@wdio/cucumber-framework": "^7.16.6",
+    "clone-deep": "^4.0.1",
     "faker": "^5.5.3",
     "yaml": "^1.10.2"
   }

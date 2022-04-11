@@ -2,6 +2,7 @@ const {login, waitForUnits, inputData} = require('./helper.js');
 const database = 'script#database';
 const sumToBuy = '#sum-to-buy';
 const timeout = 7000;
+const number = 1234;
 
 describe('Currency exchange table', async function () {
 
@@ -10,11 +11,10 @@ describe('Currency exchange table', async function () {
     });
 
     context('Should input the correct sum and check the result of exchange', async function () {
-        it('buy 1234 units of currency', async function() {
+        it(`buy ${number} units of currency`, async function() {
             const units = [];
             await $(sumToBuy).waitForDisplayed({reverse: false, timeout: 5000});
-            const number = 1234;
-
+            
             await inputData(number, sumToBuy, timeout, database, units);
             await $('[onclick="withdraw()"]').click();
 
