@@ -40,8 +40,7 @@ async function waitForUnits1(unit, timeout, selector, units) {
             const index = dataBase.length - 1;
             const len = dataBase.lenght;
 
-            if (dataBase[index].num == unit && len === units.lenght) {
-                return true;}
+            return (dataBase[index].num == unit && len === units.lenght);
             },
         {
             timeout: timeout,
