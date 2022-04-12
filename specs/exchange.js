@@ -1,4 +1,4 @@
-const {login, waitForUnits, inputData} = require('./helper.js');
+const {login, waitForUnits, inputData, waitForUnits1} = require('./helper.js');
 const database = 'script#database';
 const sumToBuy = '#sum-to-buy';
 const timeout = 7000;

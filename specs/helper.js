@@ -29,12 +29,32 @@ async function waitForUnits(unit, timeout, selector, units) {
     );
 }
 
+async function waitForUnits1(unit, timeout, selector, units) {
+    units.push({ num: unit });
+    await browser.waitUntil(
+        async () => {
+            const dataBase = await JSON.parse(await $(selector).getHTML(false));
+            console.log('parsed', dataBase);
+            console.log('my db', units);
+ 
+            const index = dataBase.length - 1;
+            const len = dataBase.lenght;
+
+            if (dataBase[index].num == unit && len === units.lenght) {
+                return true;}
+            },
+        {
+            timeout: timeout,
+            timeoutMsg: `expected amount is different after ${timeout}`,
+        }
+    );
+}
 
 async function inputData(data, selector, timeout, database, units) {
     const digits = String(data);
     for (let num of digits) {
         await $(selector).addValue(`${num}`);
-        await waitForUnits(`${num}`, timeout, database, units);
+        await waitForUnits1(`${num}`, timeout, database, units);
     }
 }
 
@@ -59,4 +79,4 @@ async function descClick(attr, attrExpect, timeout, selector) {
     );
 }
 
-module.exports = {login, waitForUnits, inputData, ascClick, descClick};
+module.exports = {login, waitForUnits, inputData, ascClick, descClick, waitForUnits1};

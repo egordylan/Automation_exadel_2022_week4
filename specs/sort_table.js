@@ -26,8 +26,10 @@ describe('Sort table', async function () {
 
             const idNums = await Promise.all(idPromises);
             const idRecieved = idNums.map(Number);
-            const idSorted = idRecieved.slice().sort((a, b) => a - b);
-            console.log('id sorted',idSorted );
+            console.log('id recieved',idRecieved);
+
+            const idSorted = idRecieved.sort((a, b) => a - b);
+            console.log('id sorted',idSorted);
 
             await expect(idRecieved).toEqual(idSorted);
         });
@@ -41,7 +43,10 @@ describe('Sort table', async function () {
             });
 
             const nameRecieved = await Promise.all(namePromises);
-            const nameSorted  = nameRecieved.slice().sort();
+            console.log('name recieved',nameRecieved );
+
+            const nameSorted  = nameRecieved.sort();
+            console.log('name sorted', nameSorted );
             await expect(nameRecieved).toEqual(nameSorted);
         });
 
@@ -57,7 +62,7 @@ describe('Sort table', async function () {
             const ageRecieved = ageNums.map(Number);
             console.log('asc from promise',ageRecieved);
 
-            const ageSorted = ageRecieved.slice().sort((a, b) => a - b); 
+            const ageSorted = ageRecieved.sort((a, b) => a - b); 
             console.log('asc by me',ageSorted)
 
             await expect(ageRecieved).toEqual(ageSorted);
@@ -73,7 +78,10 @@ describe('Sort table', async function () {
             });
             const idNums = await Promise.all(idPromises);
             const idRecieved = idNums.map(Number);
-            const idSorted = idRecieved.slice().sort((a, b) => b - a); 
+            console.log('id recieved desc', idRecieved);
+
+            const idSorted = idRecieved.sort((a, b) => b - a); 
+            console.log('id sorted desc', idSorted);
             
             await expect(idRecieved).toEqual(idSorted);
         });
@@ -87,7 +95,11 @@ describe('Sort table', async function () {
                 return await name.getText();
             });
             const nameRecieved = await Promise.all(namePromises);
-            const nameSorted = nameRecieved.slice().sort().reverse(); 
+            console.log('name recieved desc', nameRecieved);
+
+            const nameSorted = nameRecieved.sort().reverse(); 
+            console.log('name sorted desc', nameSorted);
+
             await expect(nameRecieved).toEqual(nameSorted);
         });
 
@@ -104,8 +116,10 @@ describe('Sort table', async function () {
             const ageNums = await Promise.all(agePromises);
             const ageRecieved = ageNums.map(Number);
             console.log('desc from promise',ageRecieved)
-            const ageSorted = ageRecieved.slice().sort((a, b) => b - a); 
-            console.log('desc sorted by me', ageSorted)
+            
+            const ageSorted = ageRecieved.sort((a, b) => b - a); 
+            console.log('desc sorted by me', ageSorted);
+
             await expect(ageRecieved).toEqual(ageSorted);
             
         });
